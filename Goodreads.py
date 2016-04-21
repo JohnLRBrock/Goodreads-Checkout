@@ -126,3 +126,4 @@ while(page_goal>page_total):
 # how long did that take?
 end = time.time()
 print("Finished in",end - start,"seconds.\n")
+this_is_the_end = input("Press anything to close")
