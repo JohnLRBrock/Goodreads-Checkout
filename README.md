@@ -1,4 +1,5 @@
-Goodreads-Checkout randomly searches for books from your Goodreads "to-read" list until it reaches a page total and opens up the appropriate Pasco County Library catalogue page.
+#Goodreads-Checkout
+This program randomly searches for books from your Goodreads "to-read" list until it reaches a page total and opens up the appropriate Pasco County Library catalogue page.
 
 Depends on Requests (http://docs.python-requests.org/en/master/) which can be installed with the command "pip install requests"
 
