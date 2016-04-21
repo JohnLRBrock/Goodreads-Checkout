@@ -22,11 +22,14 @@ user_id = ""
 def get_text(tree, tg, lst):
     for element in tree.iter(tag=tg):
         lst.append(element.text)
-# use get_text() to extract book titles, authors, and page numbers 
+# use get_text() to extract book titles, authors, and page numbers
 def get_data():
-    get_text(tree, 'title', titles)
-    get_text(tree, 'name', authors)
-    get_text(tree, 'num_pages', pages)
+    try:
+        get_text(tree, 'title', titles)
+        get_text(tree, 'name', authors)
+        get_text(tree, 'num_pages', pages)
+    except:
+        print("Failed to retrieve data form xml tree.\n")
 
 # take book title and author names and create the url that will be used to conduct the search
 def make_liburl(search_terms):
@@ -51,7 +54,10 @@ def search_book():
     random_book = random.randint(0,book_total-1)
     search_terms = authors[random_book]+' '+titles[random_book]
     search_url = make_liburl(search_terms)
-    fhand = requests.get(search_url)
+    try:
+        fhand = requests.get(search_url)
+    except:
+        print("Failed to search library catalogue\n")
     found_book = False
     for line in fhand:
         if "Copies available for loan:" in str(line) or "Available" in str(line):
@@ -63,11 +69,11 @@ def search_book():
             page_total = page_total + int(pages[random_book])
         except:
             page_total = page_total + 240
-            print("weirdness on",titles[random_book])
+            print("weirdness on",titles[random_book],'\n')
         book_total = book_total - 1
         remove_book(random_book)
     else:
-        print("Couldn't find",titles[random_book],"by",authors[random_book])
+        print("Couldn't find",titles[random_book],"by",authors[random_book],"\n")
         book_total = book_total - 1
         remove_book(random_book)
 
@@ -85,14 +91,23 @@ start = time.time()
 
 # get and parse data from goodreads
 url = "https://www.goodreads.com/review/list/"+user_id+".xml?key="+key+"&shelf=to-read&per_page=200&page="+current_page
-XML = requests.get(url)
-tree = ET.fromstring(XML.content)
+try:
+    XML = requests.get(url)
+except:
+    print("Failed to get xml data from Goodreads\n")
+
+try:
+    tree = ET.fromstring(XML.content)
+except:
+    print("Failed to parse XML data\n")
 
 # find number of pages of xml data
-numpages = tree.find('./books').attrib['numpages']
+try:
+    numpages = tree.find('./books').attrib['numpages']
+except:
+    print("Couldn't discover number of pages of XML data\n")
 
 get_data()
-
 
 # cycle through any remaining pages of xml data
 while(int(numpages)>int(current_page)):
