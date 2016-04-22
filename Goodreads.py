@@ -22,14 +22,12 @@ user_id = ""
 def get_text(tree, tg, lst):
     for element in tree.iter(tag=tg):
         lst.append(element.text)
+        
 # use get_text() to extract book titles, authors, and page numbers
 def get_data():
-    try:
-        get_text(tree, 'title', titles)
-        get_text(tree, 'name', authors)
-        get_text(tree, 'num_pages', pages)
-    except:
-        print("Failed to retrieve data form xml tree.\n")
+    get_text(tree, 'title', titles)
+    get_text(tree, 'name', authors)
+    get_text(tree, 'num_pages', pages)
 
 # take book title and author names and create the url that will be used to conduct the search
 def make_liburl(search_terms):
