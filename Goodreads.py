@@ -24,12 +24,9 @@ def get_text(tree, tg, lst):
         lst.append(element.text)
 # use get_text() to extract book titles, authors, and page numbers
 def get_data():
-    try:
-        get_text(tree, 'title', titles)
-        get_text(tree, 'name', authors)
-        get_text(tree, 'num_pages', pages)
-    except:
-        print("Failed to retrieve data form xml tree.\n")
+    get_text(tree, 'title', titles)
+    get_text(tree, 'name', authors)
+    get_text(tree, 'num_pages', pages)
 
 # take book title and author names and create the url that will be used to conduct the search
 def make_liburl(search_terms):
@@ -95,17 +92,15 @@ try:
     XML = requests.get(url)
 except:
     print("Failed to get xml data from Goodreads\n")
+    print("Press Ctrl+C")
+    while True:
 
-try:
-    tree = ET.fromstring(XML.content)
-except:
-    print("Failed to parse XML data\n")
+
+tree = ET.fromstring(XML.content)
+
 
 # find number of pages of xml data
-try:
-    numpages = tree.find('./books').attrib['numpages']
-except:
-    print("Couldn't discover number of pages of XML data\n")
+numpages = tree.find('./books').attrib['numpages']
 
 get_data()
 
