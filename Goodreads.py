@@ -24,9 +24,12 @@ def get_text(tree, tg, lst):
         lst.append(element.text)
 # use get_text() to extract book titles, authors, and page numbers
 def get_data():
-    get_text(tree, 'title', titles)
-    get_text(tree, 'name', authors)
-    get_text(tree, 'num_pages', pages)
+    try:
+        get_text(tree, 'title', titles)
+        get_text(tree, 'name', authors)
+        get_text(tree, 'num_pages', pages)
+    except:
+        print("Failed to retrieve data form xml tree.\n")
 
 # take book title and author names and create the url that will be used to conduct the search
 def make_liburl(search_terms):
@@ -91,15 +94,18 @@ url = "https://www.goodreads.com/review/list/"+user_id+".xml?key="+key+"&shelf=t
 try:
     XML = requests.get(url)
 except:
-    print("Failed to get xml data from Goodreads\n")
-    print("Press Ctrl+C")
-    while True:
+    print("Failed to get xml data from Goodreads. Check your internet connection.\n")
+    print("Press Ctrl+c when ready to break.")
+    while True: ()
 
-
-tree = ET.fromstring(XML.content)
-
-
+try:
+    tree = ET.fromstring(XML.content)
+except:
+    print("Failed to parse XML data. Make sure you included your key and user id.\n")
+    print("Press Ctrl+C when ready to break.")
+    while True: ()
 # find number of pages of xml data
+
 numpages = tree.find('./books').attrib['numpages']
 
 get_data()
@@ -121,4 +127,4 @@ while(page_goal>page_total):
 # how long did that take?
 end = time.time()
 print("Finished in",end - start,"seconds.\n")
-this_is_the_end = input("Press anything to close")
+this_is_the_end = input("Press enter to close")
