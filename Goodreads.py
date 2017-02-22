@@ -111,7 +111,6 @@ get_data()
 # cycle through any remaining pages of xml data
 while(int(numpages)>int(current_page)):
     current_page = str(int(current_page)+1)
-    url = "https://www.goodreads.com/review/list/"+user_id+".xml?key="+key+"&shelf=to-read&per_page=200&page="+current_page
     XML = requests.get(url)
     tree = ET.fromstring(XML.content)
     get_data()
