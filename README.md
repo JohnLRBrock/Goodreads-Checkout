@@ -6,3 +6,5 @@ Depends on Requests (http://docs.python-requests.org/en/master/) which can be in
 You must request a Goodreads API key and write it and your user id into the program. 
 
 Currently the program only works for the Pasco County Library system in Florida, but could be adapted for most other library systems.
+
+TODO: Make one call to the goodreads api with sort set to random instead of pulling the entire tree
